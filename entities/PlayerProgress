@@ -1,0 +1,59 @@
+{
+  "name": "PlayerProgress",
+  "type": "object",
+  "properties": {
+    "player_name": {
+      "type": "string",
+      "description": "The player's display name"
+    },
+    "total_stars": {
+      "type": "number",
+      "default": 0,
+      "description": "Total stars earned"
+    },
+    "total_points": {
+      "type": "number",
+      "default": 0,
+      "description": "Total points earned"
+    },
+    "current_level": {
+      "type": "number",
+      "default": 1,
+      "description": "Current unlocked level"
+    },
+    "completed_levels": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Array of completed level numbers"
+    },
+    "badges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of earned badge IDs"
+    },
+    "games_played": {
+      "type": "number",
+      "default": 0
+    },
+    "correct_answers": {
+      "type": "number",
+      "default": 0
+    },
+    "streak": {
+      "type": "number",
+      "default": 0,
+      "description": "Current correct answer streak"
+    },
+    "best_streak": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "player_name"
+  ]
+}
