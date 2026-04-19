@@ -72,3 +72,24 @@ export function saveBestIfBetter(
 
   return { bestMoves: prev, improved: false };
 }
+
+export type MemoryBestEntry = {
+  categoryId: string;
+  difficulty: string;
+  moves: number;
+};
+
+/** All saved memory bests, sorted by fewest moves first (for scoreboards). */
+export function listMemoryBestScores(limit = 12): MemoryBestEntry[] {
+  const map = loadMap();
+  return Object.entries(map)
+    .map(([key, moves]) => {
+      const colon = key.indexOf(':');
+      const categoryId = colon >= 0 ? key.slice(0, colon) : key;
+      const difficulty = colon >= 0 ? key.slice(colon + 1) : '';
+      return { categoryId, difficulty, moves };
+    })
+    .filter((e) => e.categoryId && e.difficulty && e.moves > 0)
+    .sort((a, b) => a.moves - b.moves || a.categoryId.localeCompare(b.categoryId))
+    .slice(0, limit);
+}

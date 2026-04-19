@@ -22,6 +22,7 @@ import {
   patternPlaybackMultiplierForDifficulty,
 } from '@/lib/pattern/patternDifficulty';
 import { getPatternPadsForTheme } from '@/lib/pattern/patternThemes';
+import { recordPatternBestChain } from '@/services/unifiedGameStatsService';
 import { usePageSeo } from '@/lib/seo/usePageSeo';
 import { cn } from '@/lib/utils';
 import { Layers, Play, RotateCcw } from 'lucide-react';
@@ -173,6 +174,7 @@ export default function PatternMemoryPage() {
 
     const nextIdx = idx + 1;
     if (nextIdx === seq.length) {
+      recordPatternBestChain(seq.length);
       setBestLevel((b) => Math.max(b, seq.length));
       const pc = padCountRef.current;
       const extended = [...seq, randomPadIndex(pc)];

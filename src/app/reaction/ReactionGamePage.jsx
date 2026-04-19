@@ -12,6 +12,7 @@ import {
   itemCountForDifficulty,
   timeLimitMsForDifficulty,
 } from '@/lib/reaction/buildRound';
+import { recordReactionProgress } from '@/services/unifiedGameStatsService';
 import { usePageSeo } from '@/lib/seo/usePageSeo';
 import { cn } from '@/lib/utils';
 import { RotateCcw, Zap } from 'lucide-react';
@@ -117,7 +118,11 @@ export default function ReactionGamePage() {
     setAvgMs(arr.reduce((a, b) => a + b, 0) / arr.length);
 
     const bonus = ms < 450 ? 1 : 0;
-    setScore((s) => s + 1 + bonus);
+    setScore((s) => {
+      const next = s + 1 + bonus;
+      recordReactionProgress(next, ms);
+      return next;
+    });
 
     const nextD = Math.min(difficultyRef.current + 0.35, 22);
     setDifficulty(nextD);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/memory/Navbar';
@@ -37,6 +37,7 @@ export default function QuizGamePage() {
   const [score, setScore] = useState(0);
   const [pickedId, setPickedId] = useState(null);
   const [phase, setPhase] = useState('playing');
+  const quizRoundRecordedRef = useRef(false);
 
   const startFreshRound = useCallback((catId) => {
     setQuestions(buildQuizRound(catId));
@@ -58,6 +59,17 @@ export default function QuizGamePage() {
       setSearchParams(next, { replace: true });
     }
   }, [category, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    if (phase === 'done' && questions.length > 0) {
+      if (!quizRoundRecordedRef.current) {
+        quizRoundRecordedRef.current = true;
+        recordQuizRoundComplete(score, questions.length);
+      }
+    } else if (phase === 'playing') {
+      quizRoundRecordedRef.current = false;
+    }
+  }, [phase, score, questions.length]);
 
   const current = questions[index];
   const isLast = index >= questions.length - 1;
