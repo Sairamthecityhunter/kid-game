@@ -6,70 +6,21 @@ import { createPageUrl } from '@/utils';
 import QuestionCard from '@/components/game/QuestionCard';
 import GameHeader from '@/components/game/GameHeader';
 import ResultsModal from '@/components/game/ResultsModal';
+import { usePageSeo } from '@/lib/seo/usePageSeo';
+import {
+  generateMathQuestOptions,
+  generateMathQuestQuestion,
+} from '@/lib/mathQuest/generateMathQuestQuestion';
 
 const QUESTIONS_PER_LEVEL = 10;
 
-const generateQuestion = (level) => {
-  const operations = ['add', 'subtract'];
-  if (level >= 3) operations.push('multiply');
-  if (level >= 6) operations.push('divide');
-
-  const operation = operations[Math.floor(Math.random() * operations.length)];
-  
-  let num1, num2, answer, text;
-  const maxNum = Math.min(10 + level * 2, 50);
-  const minNum = level > 5 ? 5 : 1;
-
-  switch (operation) {
-    case 'add':
-      num1 = Math.floor(Math.random() * maxNum) + minNum;
-      num2 = Math.floor(Math.random() * maxNum) + minNum;
-      answer = num1 + num2;
-      text = `${num1} + ${num2} = ?`;
-      break;
-    case 'subtract':
-      num1 = Math.floor(Math.random() * maxNum) + minNum;
-      num2 = Math.floor(Math.random() * num1) + 1;
-      answer = num1 - num2;
-      text = `${num1} - ${num2} = ?`;
-      break;
-    case 'multiply':
-      num1 = Math.floor(Math.random() * Math.min(12, level + 5)) + 1;
-      num2 = Math.floor(Math.random() * Math.min(12, level + 3)) + 1;
-      answer = num1 * num2;
-      text = `${num1} × ${num2} = ?`;
-      break;
-    case 'divide':
-      num2 = Math.floor(Math.random() * 10) + 2;
-      answer = Math.floor(Math.random() * 10) + 1;
-      num1 = num2 * answer;
-      text = `${num1} ÷ ${num2} = ?`;
-      break;
-    default:
-      num1 = Math.floor(Math.random() * 10) + 1;
-      num2 = Math.floor(Math.random() * 10) + 1;
-      answer = num1 + num2;
-      text = `${num1} + ${num2} = ?`;
-  }
-
-  return { text, answer };
-};
-
-const generateOptions = (answer) => {
-  const options = new Set([answer]);
-  
-  while (options.size < 4) {
-    const offset = Math.floor(Math.random() * 10) - 5;
-    const wrongAnswer = answer + offset;
-    if (wrongAnswer >= 0 && wrongAnswer !== answer) {
-      options.add(wrongAnswer);
-    }
-  }
-  
-  return Array.from(options).sort(() => Math.random() - 0.5);
-};
-
 export default function Play() {
+  usePageSeo({
+    title: 'Play — Math Quest',
+    description:
+      'Answer math questions, earn stars, and beat your best score in Math Quest.',
+  });
+
   const navigate = useNavigate();
   const [level, setLevel] = useState(1);
   const [questions, setQuestions] = useState([]);
@@ -85,8 +36,8 @@ export default function Play() {
     const levelParam = parseInt(urlParams.get('level')) || 1;
     setLevel(levelParam);
     
-    const generatedQuestions = Array.from({ length: QUESTIONS_PER_LEVEL }).map(() => 
-      generateQuestion(levelParam)
+    const generatedQuestions = Array.from({ length: QUESTIONS_PER_LEVEL }).map(() =>
+      generateMathQuestQuestion(levelParam)
     );
     setQuestions(generatedQuestions);
     
@@ -189,7 +140,9 @@ export default function Play() {
     setScore(0);
     setStreak(0);
     setShowResults(false);
-    setQuestions(Array.from({ length: QUESTIONS_PER_LEVEL }).map(() => generateQuestion(level)));
+    setQuestions(
+      Array.from({ length: QUESTIONS_PER_LEVEL }).map(() => generateMathQuestQuestion(level))
+    );
   };
 
   const handleNextLevel = () => {
@@ -227,7 +180,7 @@ export default function Play() {
           <QuestionCard
             key={currentQuestionIndex}
             question={currentQuestion}
-            options={generateOptions(currentQuestion.answer)}
+            options={generateMathQuestOptions(currentQuestion.answer)}
             onAnswer={handleAnswer}
             questionNumber={currentQuestionIndex + 1}
             totalQuestions={QUESTIONS_PER_LEVEL}

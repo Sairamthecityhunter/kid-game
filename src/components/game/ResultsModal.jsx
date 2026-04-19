@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, RotateCcw, Home, Star, Sparkles } from 'lucide-react';
+import { Trophy, RotateCcw, Home, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import StarRating from './StarRating';
 import Confetti from './Confetti';

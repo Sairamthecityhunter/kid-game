@@ -1,7 +1,13 @@
 import { useLocation } from 'react-router-dom';
+import { usePageSeo } from '@/lib/seo/usePageSeo';
 
 export default function PageNotFound({}) {
     const location = useLocation();
+
+    usePageSeo({
+        title: 'Page Not Found — Kids Games',
+        description: 'This page could not be found. Go back home to play memory cards or Math Quest.',
+    });
     const pageName = location.pathname.substring(1);
     
     return (

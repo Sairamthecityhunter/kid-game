@@ -6,10 +6,17 @@ import { createPageUrl } from '@/utils';
 import { ArrowLeft, Star, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LevelCard from '@/components/game/LevelCard';
+import { usePageSeo } from '@/lib/seo/usePageSeo';
 
 const TOTAL_LEVELS = 10;
 
 export default function Levels() {
+  usePageSeo({
+    title: 'Choose a Level — Math Quest',
+    description:
+      'Pick your Math Quest level. Unlock new challenges as you learn addition, subtraction, and more!',
+  });
+
   const navigate = useNavigate();
   const [playerProgress, setPlayerProgress] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

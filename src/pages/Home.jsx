@@ -3,11 +3,19 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { getPlayerProgress, createPlayerProgress } from '@/services/playerProgressService';
+import Navbar from '@/components/memory/Navbar';
 import { Play, Trophy, Star, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { usePageSeo } from '@/lib/seo/usePageSeo';
 
 export default function Home() {
+  usePageSeo({
+    title: 'Math Quest — Kids Math Game',
+    description:
+      'Start Math Quest! Practice addition, subtraction, and more with levels, badges, and progress saved on your device.',
+  });
+
   const [playerProgress, setPlayerProgress] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -53,19 +61,24 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 flex items-center justify-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-          className="w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full"
-        />
+      <div className="flex min-h-screen flex-col bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100">
+        <Navbar />
+        <div className="flex flex-1 items-center justify-center">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+            className="h-16 w-16 rounded-full border-4 border-violet-500 border-t-transparent"
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 p-6">
-      <div className="max-w-lg mx-auto pt-8">
+    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100">
+      <Navbar />
+      <div className="p-6">
+      <div className="max-w-lg mx-auto pt-4">
         {/* Logo/Title */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
@@ -187,6 +200,7 @@ export default function Home() {
         {/* Decorative Elements */}
         <div className="fixed -bottom-20 -left-20 w-64 h-64 bg-violet-300/30 rounded-full blur-3xl" />
         <div className="fixed -top-20 -right-20 w-64 h-64 bg-pink-300/30 rounded-full blur-3xl" />
+      </div>
       </div>
     </div>
   );

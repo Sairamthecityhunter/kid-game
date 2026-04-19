@@ -1,0 +1,17 @@
+{
+  "name": "Kids Memory Card Game",
+  "short_name": "Kids Games",
+  "description": "Flip and match memory cards for kids—19 themes including vehicles, space, dinosaurs, numbers, and more, plus math fun.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fef7ff",
+  "theme_color": "#c026d3",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

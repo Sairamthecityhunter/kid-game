@@ -6,8 +6,15 @@ import { createPageUrl } from '@/utils';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Badge, { BADGE_CONFIG } from '@/components/game/Badge';
+import { usePageSeo } from '@/lib/seo/usePageSeo';
 
 export default function Badges() {
+  usePageSeo({
+    title: 'Badges — Math Quest',
+    description:
+      'Collect badges in Math Quest as you level up and ace new math skills.',
+  });
+
   const navigate = useNavigate();
   const [playerProgress, setPlayerProgress] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

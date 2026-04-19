@@ -47,22 +47,36 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Levels from './pages/Levels';
+import Memory from './pages/Memory';
+import Game from './pages/Game';
 import Play from './pages/Play';
 import Progress from './pages/Progress';
 import Badges from './pages/Badges';
+import WordScramble from './pages/WordScramble';
+import Quiz from './pages/Quiz';
+import Reaction from './pages/Reaction';
+import Pattern from './pages/Pattern';
 
 
 export const PAGES = {
+    "Landing": Landing,
     "Home": Home,
     "Levels": Levels,
+    "Memory": Memory,
+    "game": Game,
+    "wordscramble": WordScramble,
+    "quiz": Quiz,
+    "reaction": Reaction,
+    "pattern": Pattern,
     "Play": Play,
     "Progress": Progress,
     "Badges": Badges,
 }
 
 export const pagesConfig = {
-    mainPage: "Home",
+    mainPage: "Landing",
     Pages: PAGES,
 };

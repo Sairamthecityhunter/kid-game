@@ -5,8 +5,15 @@ import { getPlayerProgress } from '@/services/playerProgressService';
 import { createPageUrl } from '@/utils';
 import { ArrowLeft, Star, Target, Zap, Trophy, Gamepad2, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePageSeo } from '@/lib/seo/usePageSeo';
 
 export default function Progress() {
+  usePageSeo({
+    title: 'Your Progress — Math Quest',
+    description:
+      'See your Math Quest stars, levels, and how far you have come in the game.',
+  });
+
   const navigate = useNavigate();
   const [playerProgress, setPlayerProgress] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
