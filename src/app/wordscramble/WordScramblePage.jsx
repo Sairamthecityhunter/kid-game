@@ -12,6 +12,7 @@ import {
 } from '@/data/wordScrambleData';
 import { pickScrambleRound } from '@/lib/wordscramble/pickWord';
 import { answersMatch } from '@/lib/wordscramble/scrambleWord';
+import { recordWordScrambleAttempt } from '@/services/unifiedGameStatsService';
 import { usePageSeo } from '@/lib/seo/usePageSeo';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Check, RefreshCw, Shuffle } from 'lucide-react';
@@ -99,6 +100,7 @@ export default function WordScramblePage() {
     if (!guess.trim()) return;
 
     const ok = answersMatch(guess, round.item.name);
+    recordWordScrambleAttempt(ok);
     setFeedback(ok ? 'correct' : 'incorrect');
     setWordsPlayed((n) => n + 1);
     if (ok) {

@@ -4,14 +4,10 @@ import * as LucideIcons from 'lucide-react';
 import Navbar from '@/components/memory/Navbar';
 import Footer from '@/components/memory/Footer';
 import FeatureCard from '@/components/memory/FeatureCard';
-import ThemeCategoryCard from '@/components/memory/ThemeCategoryCard';
 import MemoryHowToPlay from '@/components/memory/MemoryHowToPlay';
+import HomeScoreboard from '@/components/landing/HomeScoreboard';
 import { Button } from '@/components/ui/button';
-import { createPageUrl } from '@/utils';
-import {
-  MEMORY_HOMEPAGE_FEATURES,
-  MEMORY_HOMEPAGE_CATEGORIES,
-} from '@/data/memoryItems';
+import { MEMORY_HOMEPAGE_FEATURES } from '@/data/memoryItems';
 import { usePageSeo } from '@/lib/seo/usePageSeo';
 
 function resolveIcon(name) {
@@ -121,14 +117,6 @@ export default function LandingPage() {
                 >
                   <Link to="/pattern">Pattern memory</Link>
                 </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="h-16 rounded-2xl border-2 border-slate-200/80 bg-white/90 px-8 text-base font-bold text-slate-700 shadow-sm backdrop-blur-sm hover:bg-white"
-                >
-                  <Link to="#themes">Pick a theme</Link>
-                </Button>
               </div>
             </motion.div>
 
@@ -157,6 +145,8 @@ export default function LandingPage() {
             </motion.div>
           </div>
         </section>
+
+        <HomeScoreboard />
 
         {/* Features */}
         <section className="border-y border-fuchsia-100/80 bg-gradient-to-b from-white to-violet-50/50 px-4 py-16 md:py-24">
@@ -191,66 +181,6 @@ export default function LandingPage() {
         {/* How to play */}
         <section className="border-y border-amber-100/80 bg-gradient-to-b from-cyan-50/40 via-white to-fuchsia-50/30">
           <MemoryHowToPlay variant="full" />
-        </section>
-
-        {/* Theme categories */}
-        <section id="themes" className="scroll-mt-24 bg-gradient-to-b from-amber-50/80 via-white to-cyan-50/40 px-4 py-16 md:py-24">
-          <div className="mx-auto max-w-6xl">
-            <motion.h2
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="text-center text-3xl font-black text-slate-800 md:text-4xl"
-            >
-              Pick a card category
-            </motion.h2>
-            <p className="mx-auto mt-3 max-w-2xl text-center text-lg text-slate-600">
-              Nineteen colorful themes—vehicles, toys, dinosaurs, numbers, music, and more. Each deck
-              has its own cheerful cards.
-            </p>
-            <p className="mx-auto mt-3 max-w-2xl text-center text-sm font-medium text-slate-500">
-              These same topics appear in Word Scramble, Picture Quiz, Reflex, and Pattern memory—open
-              any game from the menu and choose a matching category.
-            </p>
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {MEMORY_HOMEPAGE_CATEGORIES.map((cat, i) => (
-                <ThemeCategoryCard
-                  key={cat.id}
-                  categoryId={cat.id}
-                  title={cat.title}
-                  description={cat.description}
-                  emoji={cat.emoji}
-                  gradientClass={cat.gradientClass}
-                  borderClass={cat.borderClass}
-                  delay={i * 0.06}
-                />
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="mt-12 text-center"
-            >
-              <Button
-                asChild
-                size="lg"
-                className="h-14 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-600 px-8 font-bold text-white shadow-lg"
-              >
-                <Link to="/game?category=animals">Start playing</Link>
-              </Button>
-              <p className="mt-4 text-sm text-slate-500">
-                Prefer numbers?{' '}
-                <Link
-                  to={createPageUrl('Home')}
-                  className="font-semibold text-violet-600 underline-offset-2 hover:underline"
-                >
-                  Try Math Quest
-                </Link>
-              </p>
-            </motion.div>
-          </div>
         </section>
       </main>
 
