@@ -3,25 +3,26 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/memory/Navbar';
 import Footer from '@/components/memory/Footer';
-import MemoryCategoryPicker from '@/components/memory/MemoryCategoryPicker';
 import { Button } from '@/components/ui/button';
+import PatternColorThemePicker from '@/components/pattern/PatternColorThemePicker';
 import PatternDifficultyPicker from '@/components/pattern/PatternDifficultyPicker';
-import { DEFAULT_MEMORY_CATEGORY_ID } from '@/data/memoryCategoryDecks';
 import {
   DEFAULT_MEMORY_DIFFICULTY_ID,
   isValidMemoryDifficulty,
   MEMORY_DIFFICULTY_LABELS,
 } from '@/data/memoryDifficulty';
-import {
-  isValidMemoryCategory,
-  MEMORY_CATEGORY_LABELS,
-} from '@/data/memoryItems';
 import { randomPadIndex } from '@/lib/pattern/patternPads';
 import {
   patternPadCountForDifficulty,
   patternPlaybackMultiplierForDifficulty,
 } from '@/lib/pattern/patternDifficulty';
-import { getPatternPadsForTheme } from '@/lib/pattern/patternThemes';
+import {
+  DEFAULT_PATTERN_COLOR_THEME_ID,
+  getPatternPadsForTheme,
+  isValidPatternColorThemeId,
+  patternColorThemeFromLegacyCategory,
+  patternColorThemeLabel,
+} from '@/lib/pattern/patternThemes';
 import { recordPatternBestChain } from '@/services/unifiedGameStatsService';
 import { usePageSeo } from '@/lib/seo/usePageSeo';
 import { cn } from '@/lib/utils';
@@ -39,13 +40,18 @@ export default function PatternMemoryPage() {
   usePageSeo({
     title: 'Pattern Memory — Simon Game',
     description:
-      'Watch the color pattern, then tap it back in order. Nineteen color themes like memory, plus easy, medium, or hard.',
+      'Watch the color pattern, then tap it back in order. Pick a color palette, easy, medium, or hard.',
   });
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const rawCategory =
-    searchParams.get('category') ?? searchParams.get('theme') ?? DEFAULT_MEMORY_CATEGORY_ID;
-  const category = isValidMemoryCategory(rawCategory) ? rawCategory : DEFAULT_MEMORY_CATEGORY_ID;
+  const rawColor = searchParams.get('color');
+  const legacyCategory = searchParams.get('category') ?? searchParams.get('theme');
+  const colorTheme =
+    rawColor && isValidPatternColorThemeId(rawColor)
+      ? rawColor
+      : legacyCategory
+        ? patternColorThemeFromLegacyCategory(legacyCategory)
+        : DEFAULT_PATTERN_COLOR_THEME_ID;
 
   const rawDifficulty = searchParams.get('difficulty') ?? DEFAULT_MEMORY_DIFFICULTY_ID;
   const difficulty = isValidMemoryDifficulty(rawDifficulty)
@@ -54,11 +60,11 @@ export default function PatternMemoryPage() {
 
   const padCount = patternPadCountForDifficulty(difficulty);
   const activePads = useMemo(
-    () => getPatternPadsForTheme(category).slice(0, padCount),
-    [category, padCount]
+    () => getPatternPadsForTheme(colorTheme).slice(0, padCount),
+    [colorTheme, padCount]
   );
   const difficultyLabel = MEMORY_DIFFICULTY_LABELS[difficulty] ?? difficulty;
-  const categoryLabel = MEMORY_CATEGORY_LABELS[category] ?? category;
+  const colorThemeLabel = patternColorThemeLabel(colorTheme);
 
   const [sequence, setSequence] = useState([]);
   const [phase, setPhase] = useState('idle');
@@ -88,13 +94,18 @@ export default function PatternMemoryPage() {
   useEffect(() => () => clearPlaybackTimers(), [clearPlaybackTimers]);
 
   useEffect(() => {
-    if (searchParams.get('category') !== category) {
+    if (
+      searchParams.get('color') !== colorTheme ||
+      searchParams.has('category') ||
+      searchParams.has('theme')
+    ) {
       const next = new URLSearchParams(searchParams);
-      next.set('category', category);
+      next.set('color', colorTheme);
+      next.delete('category');
       next.delete('theme');
       setSearchParams(next, { replace: true });
     }
-  }, [category, searchParams, setSearchParams]);
+  }, [colorTheme, searchParams, setSearchParams]);
 
   useEffect(() => {
     if (searchParams.get('difficulty') !== difficulty) {
@@ -111,7 +122,7 @@ export default function PatternMemoryPage() {
     setInputIndex(0);
     setLitPad(null);
     setBestLevel(0);
-  }, [difficulty, category, clearPlaybackTimers]);
+  }, [difficulty, colorTheme, clearPlaybackTimers]);
 
   const schedulePlayback = useCallback(
     (seq, speedMul) => {
@@ -222,14 +233,14 @@ export default function PatternMemoryPage() {
             more colors and quicker flashes.
           </p>
           <p className="mt-3 text-sm font-bold text-violet-700">
-            Theme: {categoryLabel} · Difficulty: {difficultyLabel} · {padCount} pads
+            Color theme: {colorThemeLabel} · Difficulty: {difficultyLabel} · {padCount} pads
           </p>
           <div className="mt-6 flex w-full max-w-5xl flex-col gap-6 sm:mx-auto">
             <div>
               <p className="mb-2 text-center text-xs font-bold uppercase tracking-wide text-slate-500">
                 Color theme
               </p>
-              <MemoryCategoryPicker currentCategory={category} />
+              <PatternColorThemePicker currentColorTheme={colorTheme} />
             </div>
             <PatternDifficultyPicker currentDifficulty={difficulty} />
           </div>
