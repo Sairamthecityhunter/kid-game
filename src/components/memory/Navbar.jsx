@@ -39,7 +39,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <nav className="flex flex-wrap items-center justify-end gap-1 md:gap-2">
+        <nav className="flex max-w-[min(100vw-5rem,42rem)] flex-nowrap items-center justify-end gap-1 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:max-w-none md:flex-wrap md:gap-2 md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden">
           <Link
             to="/"
             className={cn(
