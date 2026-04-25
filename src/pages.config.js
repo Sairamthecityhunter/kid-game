@@ -59,6 +59,7 @@ import WordScramble from './pages/WordScramble';
 import Quiz from './pages/Quiz';
 import Reaction from './pages/Reaction';
 import Pattern from './pages/Pattern';
+import Coloring from './pages/Coloring';
 
 
 export const PAGES = {
@@ -71,6 +72,7 @@ export const PAGES = {
     "quiz": Quiz,
     "reaction": Reaction,
     "pattern": Pattern,
+    "coloring": Coloring,
     "Play": Play,
     "Progress": Progress,
     "Badges": Badges,

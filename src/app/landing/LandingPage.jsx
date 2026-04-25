@@ -74,8 +74,8 @@ export default function LandingPage() {
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg font-medium text-slate-600 sm:text-xl md:text-2xl md:leading-relaxed">
-                Match memory cards, follow color patterns, unscramble words, quiz your brain, test
-                your reflexes, or try Math Quest—your adventure starts here.
+                Match memory cards, follow color patterns, color simple pictures, unscramble words,
+                quiz your brain, test your reflexes, or try Math Quest—your adventure starts here.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
                 <Button
@@ -116,6 +116,14 @@ export default function LandingPage() {
                   className="h-16 rounded-2xl border-2 border-fuchsia-200/90 bg-white/90 px-8 text-base font-bold text-fuchsia-900 shadow-sm backdrop-blur-sm hover:bg-fuchsia-50"
                 >
                   <Link to="/pattern">Pattern memory</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="h-16 rounded-2xl border-2 border-rose-200/90 bg-white/90 px-8 text-base font-bold text-rose-900 shadow-sm backdrop-blur-sm hover:bg-rose-50"
+                >
+                  <Link to="/coloring">Coloring</Link>
                 </Button>
               </div>
             </motion.div>

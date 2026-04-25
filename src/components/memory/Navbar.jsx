@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Gamepad2, Home, Brain, Sparkles, Shuffle, ListChecks, Zap, Layers } from 'lucide-react';
+import { Gamepad2, Home, Brain, Sparkles, Shuffle, ListChecks, Zap, Layers, Paintbrush } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navLinkClass =
@@ -23,6 +23,7 @@ export default function Navbar() {
   const isQuiz = path === '/quiz' || path.startsWith('/quiz?');
   const isReaction = path === '/reaction' || path.startsWith('/reaction?');
   const isPattern = path === '/pattern' || path.startsWith('/pattern?');
+  const isColoring = path === '/coloring' || path.startsWith('/coloring?');
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/30 bg-white/40 backdrop-blur-md">
@@ -122,6 +123,18 @@ export default function Navbar() {
             <span className="flex items-center gap-1.5">
               <Layers className="h-4 w-4" />
               Pattern
+            </span>
+          </Link>
+          <Link
+            to="/coloring"
+            className={cn(
+              navLinkClass,
+              isColoring ? 'bg-white/80 text-rose-800 shadow-sm' : 'text-slate-700'
+            )}
+          >
+            <span className="flex items-center gap-1.5">
+              <Paintbrush className="h-4 w-4" />
+              Color
             </span>
           </Link>
         </nav>
